@@ -1,0 +1,48 @@
+body {
+	color: orange;
+	background-color: steelblue;
+	font-family: Helvetica;}
+					    
+.navbar {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: middle;}
+
+.navlink {
+	float: left;}
+
+.nava:link, 
+.nava:visited {
+	display: block;
+	width: 120px;
+    font-weight: bold;
+	color: #FFFFFF; 
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+	text-transform: uppercase;}
+																							
+.nava:hover,
+.nava:active {
+	background-color: royalblue;}
+				
+.topbar{
+	font-family: Helvetica;    
+	color: orange;
+	padding: 4px 10px;
+	text-align: center;
+	text-shadow: 0 1px 0 #EEE;
+	font-weight:bold;
+	font-size:10px;
+	display:inline-block;}
+
+.logo {
+font-size:40px;
+line-height:0;
+vertical-align:middle;}
+
+.nav {
+vertical-align:-13%;}
