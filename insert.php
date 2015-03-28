@@ -53,7 +53,7 @@ $item_row = mysql_fetch_assoc($t2);
 $grab_id = $item_row['id'];
 $glbl = $_SESSION["user_email"];
 
-$t3 = mysql_query("INSERT INTO post (email, id) VALUES ('$glbl', $grab_id)");
+$t3 = mysql_query("INSERT INTO post (id, email) VALUES ($grab_id, '$glbl')");
 if (!$t3) {
 	die('Something bad happened while inserting into post. ' . mysql_error());
 }
