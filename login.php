@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (isset($_SESSION['user_email'])) { # if already logged in, redirect to profile.php
+
+	header("Location: http://iexchange.web.engr.illinois.edu/profile.php");
+	exit();
+}
+
 define('DB_NAME', 'iexchang_1');
 define('DB_USER', 'iexchang_anchal');
 define('DB_PASSWORD', 'cs411');
