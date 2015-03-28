@@ -36,12 +36,27 @@ $row_num = mysql_num_rows($query);
  <head>
   <meta charset="UTF-8">
   <title>Profile</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
  </head>
 
- <body>
+  <body>
 
- 	<h4>Welcome to your profile page! Here, you will see your listings. </h4>
- 	<p> <a href="http://iexchange.web.engr.illinois.edu/insert.html">Post a new item </a> </p>
+      <p class="topbar">
+	  	<span class="logo">i-Exchange</span>
+		<span class="nav">
+			<ul class="navbar">
+				<li class="navlink"><a class="nava" href="index.html">Home</a>
+				<li class="navlink"><a class="nava" href="login.html">Login</a>
+				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
+			</ul>
+		</span>
+	  </p>
+
+	<center>
+ 	<h2>Welcome to your profile page! Here, you will see your listings. </h2>
+ 	<p> <a href="insert.html">Post a new item </a> </p>
  	<!-- todo: delete and update entries. -->
 
 <table width="600" border="1" cellpadding="1" cellspacing="1">
@@ -67,7 +82,7 @@ $row_num = mysql_num_rows($query);
 
 </table>
 <input type="submit" name="delete" value="Delete" />
-
+</center>
 <!-- todo: need update links! -->
 
 <?php

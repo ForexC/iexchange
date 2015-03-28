@@ -3,16 +3,42 @@
  <head>
   <meta charset="UTF-8">
   <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
  </head>
 
  <body>
+ 	
+	<p class="topbar"> 
+		<span class="logo">i-Exchange</span> 
+		<span class="nav">
+			<ul class="navbar">
+  				<li class="navlink"><a class="nava" href="index.html">Home</a>
+    			<li class="navlink"><a class="nava" href="login.html">Login</a>
+	  			<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
+			</ul>
+		</span></p>
 
-<form action="login.php" method="post" /> <!-- use GET here? -->
-
-<p>Email: <input type="text" name="email" /> </p>
-<p>Password: <input type="password" name="password" /> </p>
-<input type="submit" value="Submit" />
-
+<center>
+	<h2>Login to i-Exchange</h2>
+</center>
+<form id="login" action="login.php" method="post"> <!-- use GET here? -->
+    <table align="center">
+		<tr>
+		<td width="100px">Email: </td>
+		<td>
+			<input type="text" name="email" />
+		</td></tr>
+		<tr>
+		<td>Password: </td>
+		<td>
+			<input type="password" name="password" />
+		</td></tr>
+	</table>
+	<br>
+		<center>
+			<input type="submit" value="Submit" />
+		</center>
 </form>
 
  </body>
