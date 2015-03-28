@@ -129,6 +129,8 @@ $row_num = mysql_num_rows($query);
 		$counter = $_POST['update'];
 		if (count($counter) == 1) { # the only valid number of update checkbox selections. If this is not true, do nothing!
 
+			# now grab the value of that checkbox (id) and then set it's global session var as $_SESSION['update_item'],
+			# and then in update.php have an update form that posts to itself (#) and then do an SQL query there.
 
 		}
 
