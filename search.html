@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Post an item</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+
+ <body>
+	<p class="topbar">
+        <span class="logo">i-Exchange</span>
+		<span class="nav">
+			<ul class="navbar">
+				<li class="navlink"><a class="nava" href="index.html">Home</a>
+				<li class="navlink"><a class="nava" href="login.html">Login</a>
+				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
+				<li class="navlink"><a class="nava" href="search.html">Search</a>
+			</ul>
+			</span>
+	</p>
+<center>
+<h2>Search Item</h2>
+
+<form action="search.php" method="post" /> <!-- TODO. Use session variable to keep track of user. Insert successful: redirect to user's profile page.-->
+<p>Search for: <input type="text" name="search" /> </p>
+<input type="submit" value="Search!" />
+</form>
+</center>
+<!-- after this, user should be redirected to the user's profile page. Pass user's email? (clumsy!) No, use session!-->
+
+ </body>
+</html>
