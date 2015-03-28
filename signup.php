@@ -69,9 +69,9 @@ if (!$insert) {
 	die('Something bad happened while adding user. ' . mysql_error());
 }
 
-echo 'All good!';
-
+#echo 'All good!';
 # Now redirect to login page.
+header("Location: http://iexchange.web.engr.illinois.edu/login.html");
 
 mysql_close();
 ?>
