@@ -1,8 +1,16 @@
 <?php
 session_start();
 
+# if user is not logged in, redirect to login.html
+if (!isset($_SESSION['user_email'])) {
+
+	header("Location: http://iexchange.web.engr.illinois.edu/login.html");
+	exit();
+}
+
 # User is logged in, display the profile page. Username saved in session variable.
 # need to connect to DB!
+
 define('DB_NAME', 'iexchang_1');
 define('DB_USER', 'iexchang_anchal');
 define('DB_PASSWORD', 'cs411');
@@ -72,6 +80,13 @@ $row_num = mysql_num_rows($query);
 ?>		
 		<tr>;
 		<td><input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"></td>;
+
+		<td>
+			<form action="#" method="post">
+			<input name="update[]" type="checkbox" id="update[]" value="<?=$record['id']?>">
+			</form>
+		</td>; <!-- update an item. -->
+
 		<td><?=$record['title']?></td>;
 		<td><?=$record['price']?></td>;
 		<td><?$record['category']?></td>;
@@ -82,8 +97,10 @@ $row_num = mysql_num_rows($query);
 
 </table>
 <input type="submit" name="delete" value="Delete" />
+<form action="#" method="post">
+<input type="submit" name="updatebutton" value="Update" />
+</form>
 </center>
-<!-- todo: need update links! -->
 
 <?php
 
@@ -105,6 +122,21 @@ $row_num = mysql_num_rows($query);
 			exit();
 		}	
 	}
+
+	if (isset($_POST['updatebutton'])) { # check if the user pressed delete or not.
+
+		# need to check if the update button is active on multiple rows. That's not allowed, and should have no action.
+		$counter = $_POST['update'];
+		if (count($counter) == 1) { # the only valid number of update checkbox selections. If this is not true, do nothing!
+
+
+		}
+
+
+
+	}
+
+
 	mysql_close();
 ?>
 
