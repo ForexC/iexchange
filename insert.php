@@ -1,6 +1,5 @@
 <?php
 session_start(); # check for ISSET()?
-#$_SESSION["user_email"]
 
 $user = $_SESSION["user_email"];
 $t = $_POST['title'];
@@ -36,14 +35,14 @@ if (empty($t) OR empty($c) OR empty($p)) {
 }
 
 # Checks complete. Now insert into post and item tables carefully. Keep in mind that the item ID is auto-incremented.
-$t1 = mysql_query("INSERT INTO item (title, category, price) VALUES ('$t', '$c', '$p')");
+$t1 = mysql_query("INSERT INTO item (title, price, category) VALUES ('$t', $p, '$c')");
 
 if (!$t1) {
 	die('Something bad happened while adding item. ' . mysql_error());
 }
 
 # Grab the ID to insert in the post table. Very clumsy, but you gotta do what you gotta do.
-$t2 = mysql_query("SELECT id from item WHERE title=('$t') AND category=('$c') AND price=('$p')"); # shouldn't compare floats?
+$t2 = mysql_query("SELECT id from item WHERE title=('$t') AND category=('$c') AND price=($p)"); # shouldn't compare floats?
 
 if (!$t2) {
 	die('Something bad happened while selecting id. Weird. ' . mysql_error());
@@ -54,7 +53,7 @@ $item_row = mysql_fetch_assoc($t2);
 $grab_id = $item_row['id'];
 $glbl = $_SESSION["user_email"];
 
-$t3 = mysql_query("INSERT INTO post (email, id) VALUES ('$glbl', '$grab_id')");
+$t3 = mysql_query("INSERT INTO post (email, id) VALUES ('$glbl', $grab_id)");
 if (!$t3) {
 	die('Something bad happened while inserting into post. ' . mysql_error());
 }
