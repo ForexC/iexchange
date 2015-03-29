@@ -1,6 +1,5 @@
 <?php
 
-# todo.
 define('DB_NAME', 'iexchang_1');
 define('DB_USER', 'iexchang_anchal');
 define('DB_PASSWORD', 'cs411');

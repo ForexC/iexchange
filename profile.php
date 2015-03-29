@@ -131,13 +131,17 @@ $row_num = mysql_num_rows($query);
 
 			# now grab the value of that checkbox (id) and then set it's global session var as $_SESSION['update_item'],
 			# and then in update.php have an update form that posts to itself (#) and then do an SQL query there.
+			$grabbed_val = $_POST['update']; # not sure about this
 
+			# grabbed_val is the ID we want to use. Set session variable and redirect to update.php
+			$_SESSION["update_id"] = $grabbed_val;
+
+			mysql_close();
+			header("Location: http://iexchange.web.engr.illinois.edu/update.php");
+			exit();
 		}
 
-
-
 	}
-
 
 	mysql_close();
 ?>
