@@ -67,12 +67,12 @@ $search_query = mysql_query("SELECT * from item WHERE title LIKE ('$search_key')
 <?php
 	while ($record=mysql_fetch_assoc($search_query)) {
 ?>
-		<tr>;
-		<td><input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"></td>;
-		<td><?=$record['title']?></td>;
-		<td><?=$record['price']?></td>;
-		<td><?$record['category']?></td>;
-		</tr>;
+		<tr>
+		<td><input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"></td>
+		<td><?=$record['title']?></td>
+		<td><?=$record['price']?></td>
+		<td><?$record['category']?></td>
+		</tr>
 <?php
 	}
 ?>
