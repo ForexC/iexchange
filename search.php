@@ -44,7 +44,7 @@ $search_query = mysql_query("SELECT * from item WHERE title RLIKE ('$search_key'
 	  	<span class="logo">i-Exchange</span>
 		<span class="nav">
 			<ul class="navbar">
-				<li class="navlink"><a class="nava" href="index.html">Home</a>
+				<li class="navlink"><a class="nava" href="index.php">Home</a>
 				<li class="navlink"><a class="nava" href="login.html">Login</a>
 				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
 				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
