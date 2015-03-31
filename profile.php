@@ -4,7 +4,8 @@ session_start();
 # if user is not logged in, redirect to login.html
 if (!isset($_SESSION['user_email'])) {
 
-	header("Location: http://iexchange.web.engr.illinois.edu/login.html");
+	
+	("Location: http://iexchange.web.engr.illinois.edu/login.html");
 	exit();
 }
 
@@ -33,11 +34,57 @@ if (!$db_selected) {
 # DB connected.
 # retrieve user's post records from the appropriate database to display them (?)
 $glb_val = $_SESSION["user_email"];
+#echo "$glb_val";
 
-$query = mysql_query("SELECT * from post P, item I WHERE P.email=('$glb_val') AND I.itemid=P.itemid"); # careful of session var usage.
+$query = mysql_query("SELECT * from post P, item I WHERE P.email=('$glb_val') AND I.id=P.id"); # careful of session var usage.
+
+# adding checks
+if (!$query) {
+
+	# the user has no items in the database! Redirect to insert.php and bail out.
+	header("Location: http://iexchange.web.engr.illinois.edu/insert.php");
+	exit();
+}
 
 $row_num = mysql_num_rows($query);
 # HTML to display the user's posts below.
+
+#Check if user has deleted or updated a post
+if (isset($_POST["delete"])) {
+	if(!empty($_POST['check'])){
+		$check = $_POST["check"];
+		for ($i=0; $i < $row_num; $i++) {
+			$del_id = $check[$i];
+			$sql_q1 = "DELETE FROM item WHERE id='$del_id'";
+			$sql_q2 = "DELETE FROM post WHERE id='$del_id'";
+			$res1 = mysql_query($sql_q1);
+			$res2 = mysql_query($sql_q2);
+		}
+	}
+		
+
+	if ($res1 AND $res2) { # done deleting, redirect to profile page.
+
+		mysql_close();
+		echo '<script type="text/javascript">
+               window.location = "http://iexchange.web.engr.illinois.edu/profile.php"
+              </script>';
+		exit();
+		}	
+	}
+
+	if (isset($_POST['update'])) { # check if the user pressed delete or not.
+
+		if(!empty($_POST['check'])){
+			$check = $_POST['check'];
+			$check_value = $check[0];
+			$_SESSION["update_id"] = $check_value;
+			echo '<script type="text/javascript">
+               window.location = "http://iexchange.web.engr.illinois.edu/update.php"
+              </script>';
+			exit();
+		}
+	}
 ?>
 
 <html>
@@ -58,6 +105,7 @@ $row_num = mysql_num_rows($query);
 				<li class="navlink"><a class="nava" href="login.html">Login</a>
 				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
 				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
+				<li class="navlink"><a class="nava" href="search.html">Search</a>
 			</ul>
 		</span>
 	  </p>
@@ -67,9 +115,31 @@ $row_num = mysql_num_rows($query);
  	<p> <a href="insert.html">Post a new item </a> </p>
  	<!-- todo: delete and update entries. -->
 
+
+<script type="text/javascript">
+var submitted = 3;
+
+function validateInputs(){
+	var del_num = document.forms["profileTableForm"]["check[]"];
+	var count = document.querySelectorAll('input[type="checkbox"]:checked').length;
+	if(submitted == 1 && count != 1){
+		alert("please choose one item to update");
+		return false;
+	}
+	if(submitted == 0 && count < 1){
+		alert("please select items to delete");
+		return false;
+	}
+	return true;
+}
+</script>
+
+
+<form name="profileTableForm" action="#" method="post" onsubmit="return validateInputs()">
+
 <table width="600" border="1" cellpadding="1" cellspacing="1">
 <tr>
-<th>Delete</th>	
+<th>  </th>	
 <th>Title</th>
 <th>Price</th>
 <th>Category</th>
@@ -78,73 +148,26 @@ $row_num = mysql_num_rows($query);
 <?php
 	while ($record=mysql_fetch_assoc($query)) {
 ?>		
-		<tr>;
-		<td><input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"></td>;
-
+		<tr>
 		<td>
-			<form action="#" method="post">
-			<input name="update[]" type="checkbox" id="update[]" value="<?=$record['id']?>">
-			</form>
-		</td>; <!-- update an item. -->
-
-		<td><?=$record['title']?></td>;
-		<td><?=$record['price']?></td>;
-		<td><?$record['category']?></td>;
-		</tr>;
+			<input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"/>
+		</td>
+		<td><?=$record['title']?></td>
+		<td><?=$record['price']?></td>
+		<td><?=$record['category']?></td>
+		</tr>
 <?php		
 	}
 ?>
 
 </table>
-<input type="submit" name="delete" value="Delete" />
-<form action="#" method="post">
-<input type="submit" name="updatebutton" value="Update" />
+
+<input type="submit" name="delete" value="Delete" onclick="submitted = 0" />
+<input type="submit" name="update" value="Update" onclick="submitted = 1"/>
 </form>
 </center>
 
-<?php
 
-	if ($delete) {
-
-		for ($i=0; $i < row_num; $i++) {
-
-			$del_id = $check[$i];
-			$sql_q1 = "DELETE FROM item WHERE id='$del_id'";
-			$sql_q2 = "DELETE FROM post WHERE id='$del_id'";
-			$res1 = mysql_query($sql_q1);
-			$res2 = mysql_query($sql_q2);
-		}
-
-		if ($res1 AND $res2) { # done deleting, redirect to profile page.
-
-			mysql_close();
-			header("Location: http://iexchange.web.engr.illinois.edu/profile.php");
-			exit();
-		}	
-	}
-
-	if (isset($_POST['updatebutton'])) { # check if the user pressed delete or not.
-
-		# need to check if the update button is active on multiple rows. That's not allowed, and should have no action.
-		$counter = $_POST['update'];
-		if (count($counter) == 1) { # the only valid number of update checkbox selections. If this is not true, do nothing!
-
-			# now grab the value of that checkbox (id) and then set it's global session var as $_SESSION['update_item'],
-			# and then in update.php have an update form that posts to itself (#) and then do an SQL query there.
-			$grabbed_val = $_POST['update']; # not sure about this
-
-			# grabbed_val is the ID we want to use. Set session variable and redirect to update.php
-			$_SESSION["update_id"] = $grabbed_val;
-
-			mysql_close();
-			header("Location: http://iexchange.web.engr.illinois.edu/update.php");
-			exit();
-		}
-
-	}
-
-	mysql_close();
-?>
 
 <!--</table> moved above.-->
 

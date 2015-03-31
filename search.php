@@ -27,7 +27,7 @@ if (!$db_selected) {
 
 # DB connected.
 # Grab all the title from item table which includes the search key
-$search_query = mysql_query("SELECT * from item WHERE title LIKE ('$search_key')");
+$search_query = mysql_query("SELECT * from item WHERE title RLIKE ('$search_key')");
 ?>
 
 <html>
@@ -48,7 +48,7 @@ $search_query = mysql_query("SELECT * from item WHERE title LIKE ('$search_key')
 				<li class="navlink"><a class="nava" href="login.html">Login</a>
 				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
 				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
-				<li class="navlink"><a class="nava" href="search.php">Search</a></li>
+				<li class="navlink"><a class="nava" href="search.html">Search</a></li>
 			</ul>
 		</span>
 	  </p>
@@ -59,7 +59,6 @@ $search_query = mysql_query("SELECT * from item WHERE title LIKE ('$search_key')
 
 <table width="600" border="1" cellpadding="1" cellspacing="1">
 <tr>
-<th>Delete</th>
 <th>Title</th>
 <th>Price</th>
 <th>Category</th>
@@ -68,12 +67,11 @@ $search_query = mysql_query("SELECT * from item WHERE title LIKE ('$search_key')
 <?php
 	while ($record=mysql_fetch_assoc($search_query)) {
 ?>
-		<tr>;
-		<td><input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"></td>;
-		<td><?=$record['title']?></td>;
-		<td><?=$record['price']?></td>;
-		<td><?$record['category']?></td>;
-		</tr>;
+		<tr>
+		<td><?=$record['title']?></td>
+		<td>$<?=$record['price']?></td>
+		<td><?=$record['category']?></td>
+		</tr>
 <?php
 	}
 ?>
