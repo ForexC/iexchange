@@ -5,33 +5,14 @@ session_start();
 if (!isset($_SESSION['user_email'])) {
 
 	
-	("Location: http://iexchange.web.engr.illinois.edu/login.html");
+	("Location: http://iexchange.web.engr.illinois.edu/login.php");
 	exit();
 }
 
 # User is logged in, display the profile page. Username saved in session variable.
-# need to connect to DB!
+# connect to DB.
+include 'dbconnect.php';
 
-define('DB_NAME', 'iexchang_1');
-define('DB_USER', 'iexchang_anchal');
-define('DB_PASSWORD', 'cs411');
-define('DB_HOST', 'engr-cpanel-mysql.engr.illinois.edu');
-
-# establish link to DB
-$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-
-if (!$link) {
-	die('Could not connect: ' . mysql_error()); # probably replace with a redirect.
-}
-
-# select DB
-$db_selected = mysql_select_db(DB_NAME, $link);
-
-if (!$db_selected) {
-	die('Did not find ' . DB_NAME . ': ' . mysql_error()); # probably replace with a redirect.
-}
-
-# DB connected.
 # retrieve user's post records from the appropriate database to display them (?)
 $glb_val = $_SESSION["user_email"];
 #echo "$glb_val";
@@ -102,8 +83,8 @@ if (isset($_POST["delete"])) {
 		<span class="nav">
 			<ul class="navbar">
 				<li class="navlink"><a class="nava" href="index.php">Home</a>
-				<li class="navlink"><a class="nava" href="login.html">Login</a>
-				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+				<li class="navlink"><a class="nava" href="login.php">Login</a>
+				<li class="navlink"><a class="nava" href="signup.php">Signup</a>
 				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
 				<li class="navlink"><a class="nava" href="search.html">Search</a>
 			</ul>
@@ -111,9 +92,8 @@ if (isset($_POST["delete"])) {
 	  </p>
 
 	<center>
- 	<h2>Welcome to your profile page! Here, you will see your listings. </h2>
- 	<p> <a href="insert.html">Post a new item </a> </p>
- 	<!-- todo: delete and update entries. -->
+ 	<h2>Your Posts</h2>
+ 	<!-- <p> <a href="insert.html">Post a new item </a> </p> -->
 
 
 <script type="text/javascript">
@@ -161,15 +141,15 @@ function validateInputs(){
 ?>
 
 </table>
-
+<br>
 <input type="submit" name="delete" value="Delete" onclick="submitted = 0" />
 <input type="submit" name="update" value="Update" onclick="submitted = 1"/>
 </form>
+
+<form action="http://iexchange.web.engr.illinois.edu/insert.html">
+<input type="submit" value="Post a new item">
+</form>
 </center>
-
-
-
-<!--</table> moved above.-->
 
  </body>
 </html>

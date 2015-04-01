@@ -9,7 +9,6 @@ if (isset($_SESSION['user_email'])) {
 
 ?>
 
-
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -23,8 +22,8 @@ if (isset($_SESSION['user_email'])) {
 			<span class="nav">
 				<ul class="navbar">
 					 <li class="navlink"><a class="nava" href="index.php">Home</a> 
-					<li class="navlink"><a class="nava" href="login.html">Login</a>
-					<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+					<li class="navlink"><a class="nava" href="login.php">Login</a>
+					<li class="navlink"><a class="nava" href="signup.php">Signup</a>
 					<!-- <li class="navlink"><a class="nava" href="profile.php">View Profile</a> -->
 					<!-- <li class="navlink"><a class="nava" href="search.html">Search</a> -->
 				</ul>

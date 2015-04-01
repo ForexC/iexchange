@@ -12,8 +12,8 @@
 		<span class="nav">
 			<ul class="navbar">
 				<li class="navlink"><a class="nava" href="index.php">Home</a>
-				<li class="navlink"><a class="nava" href="login.html">Login</a>
-				<li class="navlink"><a class="nava" href="signup.html">Signup</a>
+				<li class="navlink"><a class="nava" href="login.php">Login</a>
+				<li class="navlink"><a class="nava" href="signup.php">Signup</a>
 				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
 				<li class="navlink"><a class="nava" href="search.html">Search</a>
 			</ul>
@@ -22,12 +22,11 @@
 <center>
 <h2>Search Item</h2>
 
-<form action="search.php" method="post" /> <!-- TODO. Use session variable to keep track of user. Insert successful: redirect to user's profile page.-->
+<form action="search.php" method="post" /> 
 <p>Search for: <input type="text" name="search" /> </p>
-<input type="submit" value="Search!" />
+<input type="submit" value="Search" />
 </form>
 </center>
-<!-- after this, user should be redirected to the user's profile page. Pass user's email? (clumsy!) No, use session!-->
 
  </body>
 </html>
