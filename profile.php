@@ -199,7 +199,7 @@ function validateInputs(){
 <input class="btn btn-info" type="submit" name="update" value="Update" onclick="submitted = 1"/>
 </form>
 
-<form action="http://iexchange.web.engr.illinois.edu/insert.html">
+<form action="insert.html" method="post">
 <input class="btn btn-info" type="submit" value="Post a new item">
 </form>
 </center>

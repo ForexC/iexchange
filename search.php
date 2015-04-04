@@ -68,7 +68,7 @@ if(!isset($search_key)){
 	      <div class="col-sm-1">
 	      </div>
 	      <div class="col-sm-8">
-	       <input class="form-control" name="search" type="text" value="search">
+	       <input class="form-control" name="search" type="text">
 	      </div>
 	      <div class="col-sm-3">
 	      	<input class="btn btn-info" type="submit" value="Search" />
