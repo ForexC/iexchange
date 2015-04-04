@@ -69,49 +69,75 @@ if (isset($_POST['submitSignup'])) {
 <html>
  <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Signup</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  			<!-- jQuery Libraries -->
+	   		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	   		<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
  </head>
 
  <body>
-	<p class="topbar"> 
-        <span class="logo">i-Exchange</span> 
-		<span class="nav">
-			<ul class="navbar">
-				<li class="navlink"><a class="nava" href="index.php">Home</a>
-				<li class="navlink"><a class="nava" href="login.php">Login</a>
-				<li class="navlink"><a class="nava" href="signup.php">Signup</a>
-				<li class="navlink"><a class="nava" href="profile.php">View Profile</a>
-				<li class="navlink"><a class="nava" href="search.html">Search</a>
-			</ul>
-			</span>
-	</p>
-<center>
-	<h2>Signup for i-Exchange</h2>
-</center>
-<form id="signup" action="#" method="post">
-    <table align="center">
-	        <tr>
-			<td width="100px">Name: </td>
-			<td>
-				<input type="text" name="name" />
-			</td></tr>
-	        <tr>
-			<td>Email: </td>
-			<td>
-				<input type="text" name="email" />
-			</td></tr>
-			<tr>
-			<td>Password: </td>
-			<td>
-				<input type="password" name="password" />
-			</td></tr>
-	</table>
-	<br>
+	<!-- topbar -->
+ 	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="index.php">iExchange</a>
+	    </div>
+	    <div>
+	      <ul class="nav navbar-nav">
+	        <li><a href="index.php">Home</a></li>
+	        <li><a href="login.php">Login</a></li>
+	        <li class="active"><a href="signup.php">Signup</a></li>
+	        <li><a href="profile.php">Profile</a></li>
+	        <li><a href="search.php">Search</a></li>
+	      </ul>
+	    </div>
+	  </div>
+    </nav>
+<div class="container">
 	<center>
-		<input name="submitSignup" type="submit" value="Submit" />
+		<h2>Signup for i-Exchange</h2>
 	</center>
-</form>
-
- </body>
+	<form id="signup" action="#" method="post" class="form-horizontal">
+		 <div class="form-group">
+		      <div class="col-sm-3">
+		      </div>
+		      <label class="col-sm-2 control-label">Name</label>
+		      <div class="col-sm-2">
+		        <input class="form-control" name="name" type="text">
+		      </div>
+		      <div class="col-sm-5">
+		      </div>
+	    </div>
+	    <div class="form-group">
+		      <div class="col-sm-3">
+		      </div>
+		      <label class="col-sm-2 control-label">Email</label>
+		      <div class="col-sm-2">
+		        <input class="form-control" name="email" type="text">
+		      </div>
+		      <div class="col-sm-5">
+	      </div>
+	    </div>
+	    <div class="form-group">
+		      <div class="col-sm-3">
+		      </div>
+		      <label class="col-sm-2 control-label">Passsword</label>
+		      <div class="col-sm-2">
+		        <input class="form-control" name="password" type="password">
+		      </div>
+		      <div class="col-sm-5">
+		      </div>
+	    </div>
+		<br>
+		<center>
+			<input class="btn btn-info" name="submitSignup" type="submit" value="Sign in" />
+		</center>
+	</form>
+</div>
+</body>
 </html>
