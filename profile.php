@@ -119,8 +119,7 @@ if (isset($_POST["delete"])) {
 	<br>
 	<br>
 	<br>
-	<div class="highlight">
-		<pre>
+		<!-- user information table -->
 		<table class="table">
 			<tbody>
 			<tr>
@@ -129,7 +128,7 @@ if (isset($_POST["delete"])) {
 			</tr>
 			<tr>
 				<th scope="row">Email</th>
-				<td><?=$email?></td>
+				<td><?=$user_email?></td>
 			</tr>
 			<tr>
 				<th scope="row">Password</th>
@@ -137,8 +136,6 @@ if (isset($_POST["delete"])) {
 			</tr>
 		</tbody>
 		</table>
-	</pre>
-	</div>
 	<br>
 	<br>
 	<br>
