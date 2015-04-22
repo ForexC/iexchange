@@ -5,14 +5,14 @@ session_start();
 include 'dbconnect.php';
 
 # DB connected.
+$gl_user = $_SESSION["user_email"];
+
 # Grab all the title from item table which includes the search key
 # Fetch the data sent from the HTML form
 $search_key = $_POST['search'];
+if (isset($search_key)) {
 
-if(!isset($search_key)){
-	#error_log("search_key not defined");
-}else{
-	$search_query = mysql_query("SELECT * from item WHERE title RLIKE ('$search_key')");
+	$search_query = mysql_query("SELECT * from item I, post P WHERE P.email!=('$gl_user') AND I.id=P.id AND I.title RLIKE ('$search_key')");
 }
 
 ?>
@@ -50,6 +50,8 @@ if(!isset($search_key)){
 	        <li><a href="profile.php">Profile</a></li>
 	        <li class="active"><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
+	        <li><a href="wishlist.php">Wishlist</a></li>
+	        <li><a href="history.php">Buy History</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -58,28 +60,32 @@ if(!isset($search_key)){
     </nav>
 <div class="container">
 	<center>
-	<h2>Search Item</h2>
+	<h2>Search for Items</h2>
 	<br>
-	<br>
-	<br>
+	
+	</center>
 
 	<form action="#" method="post" /> 
 	 <div class="form-group">
 	      <div class="col-sm-1">
 	      </div>
+	      
+	      <center>
+	      
 	      <div class="col-sm-8">
 	       <input class="form-control" name="search" type="text">
 	      </div>
-	      <div class="col-sm-3">
-	      	<input class="btn btn-info" type="submit" value="Search" />
+	      <div class="col-sm-1">
+	      	<input class="btn btn-info" type="submit" value="Go" />
 	      </div>
+	      
+	      </center>
+	    
 	 </div>
 	
 	</form>
-	</center>
+	<!--</center>-->
 
-
- 	<!-- todo: delete and update entries. -->
 <br>
 <br>
 <br>
@@ -89,6 +95,7 @@ if(!isset($search_key)){
 	<th>Title</th>
 	<th>Price</th>
 	<th>Category</th>
+	<th>Contact Seller</th>
 	</tr>
 </thead>
 <tbody>
@@ -100,6 +107,8 @@ if(!isset($search_key)){
 		<td><?=$record['title']?></td>
 		<td>$<?=$record['price']?></td>
 		<td><?=$record['category']?></td>
+		<td><input class="btn btn-info" type="submit" name="EmailUser" value="Send Email" 
+		 onclick="window.location.href='mailto:<?=$record['email']?>';"/> </td>
 		</tr>
 <?php
 		}

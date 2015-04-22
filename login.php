@@ -98,15 +98,16 @@ if (isset($_POST['submitLogin'])) {
     </nav>
 <div class="container">
 	<center>
-		<h2>Login to i-Exchange</h2>
+		<h3>Login to i-Exchange</h3>
+		<br>
 	</center>
 	<form id="login" action="#" method="post" class="form-horizontal">
 	    <div class="form-group">
 	      <div class="col-sm-3">
 	      </div>
-	      <label class="col-sm-2 control-label">Email</label>
+	      <label class="col-sm-2 control-label"></label>
 	      <div class="col-sm-2">
-	        <input class="form-control" name="email" type="text">
+	        <input class="form-control" name="email" type="text" placeholder="Email">
 	      </div>
 	      <div class="col-sm-5">
 	      </div>
@@ -114,9 +115,9 @@ if (isset($_POST['submitLogin'])) {
 	    <div class="form-group">
 	      <div class="col-sm-3">
 	      </div>
-	      <label class="col-sm-2 control-label">Password</label>
+	      <label class="col-sm-2 control-label"></label>
 	      <div class="col-sm-2">
-	        <input class="form-control" name="password" type="password">
+	        <input class="form-control" name="password" type="password" placeholder="Password">
 	      </div>
 	      <div class="col-sm-5">
 	      </div>

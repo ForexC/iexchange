@@ -57,21 +57,72 @@ if (isset($_POST["delete"])) {
                window.location = "http://iexchange.web.engr.illinois.edu/profile.php"
               </script>';
 		exit();
-		}	
+	}	
+}
+
+if (isset($_POST['update'])) { # check if the user pressed delete or not.
+
+	if(!empty($_POST['check'])){
+		$check = $_POST['check'];
+		$check_value = $check[0];
+		$_SESSION["update_id"] = $check_value;
+		echo '<script type="text/javascript">
+         window.location = "http://iexchange.web.engr.illinois.edu/update.php"
+         </script>';
+		exit();
 	}
+}
 
-	if (isset($_POST['update'])) { # check if the user pressed delete or not.
+#mark the item "bought" and move the object from db post to bought.
 
-		if(!empty($_POST['check'])){
-			$check = $_POST['check'];
-			$check_value = $check[0];
-			$_SESSION["update_id"] = $check_value;
+# edit from Anchal: make it so you can only mark it one at a time!
+if(isset($_POST['bought'])) {
+
+	if(!empty($_POST['check']) AND !empty($_POST['buyer_email'])) { # careful here (anchal)
+
+		$check = $_POST['check'];
+		$del_id = $check[0]; # this is the ID of the item we want to insert into history with the email from the input field
+		
+		#echo $del_id;
+		
+		$q1 = mysql_query("SELECT * FROM item WHERE id='$del_id'"); # should have only one row
+		$user_row = mysql_fetch_assoc($q1);
+		$title_in = $user_row['title'];
+		$price_in = $user_row['price'];
+		$category_in = $user_row['category'];
+		$email_in = $_POST['buyer_email'];
+
+		# sanitation check for user.
+		$user_check = mysql_query("SELECT * from users WHERE email=('$email_in')");
+		$user_num = mysql_num_rows($user_check);
+		if ($user_num == 0) {
+
+			mysql_close();
 			echo '<script type="text/javascript">
-               window.location = "http://iexchange.web.engr.illinois.edu/update.php"
+               window.location = "http://iexchange.web.engr.illinois.edu/profile.php"
+              </script>';
+			exit();
+		}
+
+		# insert into history
+		$insert_query = mysql_query("INSERT INTO history (id, email, title, price, category) VALUES ('$del_id', '$email_in', '$title_in', '$price_in', '$category_in')");
+
+		# delete from tables...
+		$del1 = "DELETE FROM item WHERE id='$del_id'";
+		$del2 = "DELETE FROM post WHERE id='$del_id'";
+		$d1 = mysql_query($del1);
+		$d2 = mysql_query($del2);
+
+		if ($insert_query AND $d1 AND $d2) { # all queries successful.
+			mysql_close();
+			echo '<script type="text/javascript">
+               window.location = "http://iexchange.web.engr.illinois.edu/profile.php"
               </script>';
 			exit();
 		}
 	}
+}
+
 ?>
 
 <html>
@@ -100,13 +151,11 @@ if (isset($_POST["delete"])) {
 	    <div>
 	      <ul class="nav navbar-nav">
 	        <li><a href="index.php">Home</a></li>
-	        <!-- we don't need these ones
-	        <li><a href="login.php">Login</a></li>
-	        <li><a href="signup.php">Signup</a></li>
-	    	-->
 	        <li class="active"><a href="profile.php">Profile</a></li>
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
+	        <li><a href="wishlist.php">Wishlist</a></li>
+		<li><a href="history.php">Buy History</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -130,19 +179,14 @@ if (isset($_POST["delete"])) {
 				<th scope="row">Email</th>
 				<td><?=$user_email?></td>
 			</tr>
-			<tr>
-				<th scope="row">Password</th>
-				<td>**********</td>
-			</tr>
 		</tbody>
 		</table>
 	<br>
-	<br>
-	<br>
+
  	<h2>Your Posts</h2>
  	<br>
-	<br>
-	<br>
+ 	<br>
+ 	<br>
  	<!-- <p> <a href="insert.html">Post a new item </a> </p> -->
 
 
@@ -153,11 +197,11 @@ function validateInputs(){
 	var del_num = document.forms["profileTableForm"]["check[]"];
 	var count = document.querySelectorAll('input[type="checkbox"]:checked').length;
 	if(submitted == 1 && count != 1){
-		alert("please choose one item to update");
+		alert("Please choose one item to update or mark as bought.");
 		return false;
 	}
 	if(submitted == 0 && count < 1){
-		alert("please select items to delete");
+		alert("Please select items to delete.");
 		return false;
 	}
 	return true;
@@ -186,7 +230,7 @@ function validateInputs(){
 			<input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"/>
 		</td>
 		<td><?=$record['title']?></td>
-		<td><?=$record['price']?></td>
+		<td>$<?=$record['price']?></td>
 		<td><?=$record['category']?></td>
 		</tr>
 <?php		
@@ -195,13 +239,32 @@ function validateInputs(){
 </tbody>
 </table>
 <br>
+
+<!-- anchal edit -->
+<br>
+<div class="container">
+	 <div class="form-group">
+	      <div class="col-sm-1">
+	      </div>
+	      <div class="col-sm-8">
+	       <input class="form-control" name="buyer_email" type="text" placeholder="Buyer's Email">
+	      </div>
+	      <div class="col-sm-3">
+	      	<input class="btn btn-info" type="submit" name="bought" value="Mark as Bought" onclick="submitted = 1"/>
+	      </div>
+	 </div>
+</div>
+<br>
 <input class="btn btn-info" type="submit" name="delete" value="Delete" onclick="submitted = 0" />
+<!--<input class="btn btn-info" type="submit" name="bought" value="Mark as Bought" onclick="submitted = 0" /> -->
 <input class="btn btn-info" type="submit" name="update" value="Update" onclick="submitted = 1"/>
 </form>
 
 <form action="insert.html" method="post">
 <input class="btn btn-info" type="submit" value="Post a new item">
 </form>
+
+<br>
 </center>
 </div>
  </body>

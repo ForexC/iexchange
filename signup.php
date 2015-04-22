@@ -71,7 +71,7 @@ if (isset($_POST['submitSignup'])) {
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Signup</title>
+  <title>Sign up</title>
   			<!-- jQuery Libraries -->
 	   		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 	   		<!-- Latest compiled and minified CSS -->
@@ -98,17 +98,19 @@ if (isset($_POST['submitSignup'])) {
 	    </div>
 	  </div>
     </nav>
+    
 <div class="container">
 	<center>
-		<h2>Signup for i-Exchange</h2>
+		<h3>Sign up with an @illinois.edu email</h3>
+		<br>
 	</center>
 	<form id="signup" action="#" method="post" class="form-horizontal">
 		 <div class="form-group">
 		      <div class="col-sm-3">
 		      </div>
-		      <label class="col-sm-2 control-label">Name</label>
+		      <label class="col-sm-2 control-label"></label>
 		      <div class="col-sm-2">
-		        <input class="form-control" name="name" type="text">
+		        <input class="form-control" name="name" type="text" placeholder="Name">
 		      </div>
 		      <div class="col-sm-5">
 		      </div>
@@ -116,9 +118,9 @@ if (isset($_POST['submitSignup'])) {
 	    <div class="form-group">
 		      <div class="col-sm-3">
 		      </div>
-		      <label class="col-sm-2 control-label">Email</label>
+		      <label class="col-sm-2 control-label"></label>
 		      <div class="col-sm-2">
-		        <input class="form-control" name="email" type="text">
+		        <input class="form-control" name="email" type="text" placeholder="Email">
 		      </div>
 		      <div class="col-sm-5">
 	      </div>
@@ -126,18 +128,21 @@ if (isset($_POST['submitSignup'])) {
 	    <div class="form-group">
 		      <div class="col-sm-3">
 		      </div>
-		      <label class="col-sm-2 control-label">Passsword</label>
+		      <label class="col-sm-2 control-label"></label>
 		      <div class="col-sm-2">
-		        <input class="form-control" name="password" type="password">
+		        <input class="form-control" name="password" type="password" placeholder="Password">
 		      </div>
 		      <div class="col-sm-5">
 		      </div>
 	    </div>
 		<br>
 		<center>
-			<input class="btn btn-info" name="submitSignup" type="submit" value="Sign in" />
+			<input class="btn btn-info" name="submitSignup" type="submit" value="Sign up" />
 		</center>
 	</form>
+		<center>
+			<p>Already have an account? <a href="http://iexchange.web.engr.illinois.edu/login.php">Login.</a> </p>
+		</center>
 </div>
 </body>
 </html>

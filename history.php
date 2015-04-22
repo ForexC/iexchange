@@ -3,17 +3,41 @@ session_start();
 
 include 'dbconnect.php';
 $gl_useremail = $_SESSION["user_email"];
+		                
+$sub_query = mysql_query("SELECT title from history WHERE email=('$gl_useremail')");
 
-# query to get all items in the table that are posted by other users. Hence the not-equals-to.
-$query_all = mysql_query("SELECT * from post P, item I WHERE P.email!=('$gl_useremail') AND I.id=P.id");
+$count = 1;
+$wishes = "";
+while ($subs = mysql_fetch_assoc($sub_query)) {
 
-if (!$query_all) {
-
-	header("Location: http://iexchange.web.engr.illinois.edu/index.php");
-	exit();
+	if ($count != 1) {
+		$wishes .= '|';
+	}
+	
+	$wishes .= $subs['title'];
+	$count = $count + 1;
 }
 
-$row_nums = mysql_num_rows($query_all);		         
+# if wishlist is empty, set regex to reject all strings. http://stackoverflow.com/questions/62430/regular-expression-that-rejects-all-input
+
+if ($wishes == "") { 
+
+	$wishes = ".^"; # reject everything below.
+}
+
+#echo $wishes;
+
+# thanks http://stackoverflow.com/questions/26660973/php-pdo-mysql-query-like-multiple-keywords
+$query_history = mysql_query("SELECT * from post P, item I WHERE P.email!=('$gl_useremail') AND I.id=P.id
+			       AND I.title REGEXP ('" .mysql_real_escape_string($wishes). "')");
+		                
+if (!$query_history) {
+	
+	# very volatile. If fails, causes redirect loop... redirect elsewhere?
+	header("Location: http://iexchange.web.engr.illinois.edu/index.php");
+	exit();
+}		                
+
 ?>
 
 <html>
@@ -21,7 +45,7 @@ $row_nums = mysql_num_rows($query_all);
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	    <meta name="viewport" content="width=device-width, initial-scale=1">
-     		<title>Home</title>
+     		<title>Wishlist</title>
 
      		<!-- jQuery Libraries -->
 	   		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -40,7 +64,7 @@ $row_nums = mysql_num_rows($query_all);
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="index.php">Home</a></li>
+	        <li><a href="index.php">Home</a></li>
 	        <?php if(!isset($_SESSION['user_email'])){ ?>
 	        <li><a href="login.php">Login</a></li>
 	        <li><a href="signup.php">Signup</a></li>
@@ -49,7 +73,7 @@ $row_nums = mysql_num_rows($query_all);
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li><a href="wishlist.php">Wishlist</a></li>
-	        <li><a href="history.php">Buy History</a></li>
+	        <li class="active"><a href="history.php">Buy History</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -57,13 +81,11 @@ $row_nums = mysql_num_rows($query_all);
 	  </div>
     </nav>
 
- 	<div class="container">
-
-		<center>
-			<h3>All Posts</h3>
-			<br> <br>
-		</center>	
-	<!-- Need to display all items here. No check-boxes, but we need email user buttons. -->
+	<div class="container">
+	<center>
+	<h3>Items Based on Your Buy History</h3>
+	<br> <br>
+	</center>
 	
 	<table class="table table-hover">
 	<thead>
@@ -72,26 +94,27 @@ $row_nums = mysql_num_rows($query_all);
 			<th>Price</th>
 			<th>Category</th>
 			<th>Contact Seller</th>
+			
 		</tr>
 	</thead>
 
 	<tbody>
 	<?php
-	while ($record=mysql_fetch_assoc($query_all)) {
+	while ($record=mysql_fetch_assoc($query_history)) {
 	?>		
 		<tr>
 		<td><?=$record['title']?></td>
 		<td>$<?=$record['price']?></td>
 		<td><?=$record['category']?></td>
 		<td><input class="btn btn-info" type="submit" name="EmailUser" value="Send Email" 
-		 onclick="window.location.href='mailto:<?=$record['email']?>';"/> </td>
+		 onclick="window.location.href='mailto:<?=$record['email']?>';"/> </td>		
 		</tr>
 <?php		
 	}
 ?>
 </tbody>
-</table>
+</table>	
 	</div>
 	
-</body>																								
+	</body>																								
 </html>

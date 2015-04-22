@@ -28,7 +28,7 @@
 	        <li><a href="profile.php">Profile</a></li>
 	        <li class="active"><a href="search.html">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {
-	        	ehco $_SESSION['user_email'];?>
+	        <li><a href="wishlist.php">Wishlist</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -40,7 +40,7 @@
 
 <form action="search.php" method="post" /> 
 <p>Search for: <input type="text" name="search" /> </p>
-<input class="btn btn-info" type="submit" value="Search" />
+<input class="btn btn-info" type="submit" value="Submit" />
 </form>
 </center>
 
