@@ -83,15 +83,15 @@ if (isset($_POST['submitLogin'])) {
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
 	        <li><a href="index.php">Home</a></li>
 	        <li class="active"><a href="login.php">Login</a></li>
 	        <li><a href="signup.php">Signup</a></li>
-	        <li><a href="profile.php">Profile</a></li>
-	        <li><a href="search.php">Search</a></li>
+	        <!-- <li><a href="profile.php">Profile</a></li> -->
+	        <!-- <li><a href="search.php">Search</a></li> -->
 	      </ul>
 	    </div>
 	  </div>

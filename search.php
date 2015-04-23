@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+# edit: Since we show listings with email buttons, we can't let users access it unless they're logged in.
+# if user is not logged in, redirect to login.html
+if (!isset($_SESSION['user_email'])) {
+
+	header("Location: http://iexchange.web.engr.illinois.edu/login.php");	
+	exit();
+}
+
 # User is logged in, display the profile page. Username saved in session variable.
 include 'dbconnect.php';
 
@@ -38,7 +46,7 @@ if (isset($search_key)) {
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
@@ -51,7 +59,7 @@ if (isset($search_key)) {
 	        <li class="active"><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li><a href="wishlist.php">Wishlist</a></li>
-	        <li><a href="history.php">Buy History</a></li>
+	        <li><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -60,34 +68,26 @@ if (isset($search_key)) {
     </nav>
 <div class="container">
 	<center>
-	<h2>Search for Items</h2>
+	<h3>Search for Items</h3>
 	<br>
-	
 	</center>
-
-	<form action="#" method="post" /> 
-	 <div class="form-group">
-	      <div class="col-sm-1">
-	      </div>
-	      
-	      <center>
-	      
-	      <div class="col-sm-8">
-	       <input class="form-control" name="search" type="text">
-	      </div>
-	      <div class="col-sm-1">
-	      	<input class="btn btn-info" type="submit" value="Go" />
-	      </div>
-	      
-	      </center>
-	    
-	 </div>
 	
-	</form>
-	<!--</center>-->
+	<!-- -->
+	<form action="#" method="post" />
+	<div class="row">
+    	<div class="col-lg-4 col-lg-offset-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" /> 
+                    <span class="input-group-btn">
+                    <input class="btn btn-default" type="submit" value="Go" />
+                    </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+        </form>
+		
+	<!-- -->
 
-<br>
-<br>
 <br>
 <table class="table table-hover">
 <thead>

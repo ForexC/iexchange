@@ -4,17 +4,22 @@ session_start();
 include 'dbconnect.php';
 $gl_useremail = $_SESSION["user_email"];
 		                
-$sub_query = mysql_query("SELECT title from history WHERE email=('$gl_useremail')");
+#$sub_query = mysql_query("SELECT title from history WHERE email=('$gl_useremail')");
+$sub_query = mysql_query("SELECT title, category from history WHERE email=('$gl_useremail')");
 
 $count = 1;
 $wishes = "";
+$wishes1 = "";
 while ($subs = mysql_fetch_assoc($sub_query)) {
 
 	if ($count != 1) {
 		$wishes .= '|';
+		$wishes1 .= '|';
+
 	}
 	
 	$wishes .= $subs['title'];
+	$wishes1 .= $subs['category'];
 	$count = $count + 1;
 }
 
@@ -25,11 +30,21 @@ if ($wishes == "") {
 	$wishes = ".^"; # reject everything below.
 }
 
+if ($wishes1 == "") { 
+
+	$wishes1 = ".^"; # reject everything below.
+}
+
+
 #echo $wishes;
+#echo $wishes1;
 
 # thanks http://stackoverflow.com/questions/26660973/php-pdo-mysql-query-like-multiple-keywords
 $query_history = mysql_query("SELECT * from post P, item I WHERE P.email!=('$gl_useremail') AND I.id=P.id
-			       AND I.title REGEXP ('" .mysql_real_escape_string($wishes). "')");
+			       AND (I.title RLIKE ('" .mysql_real_escape_string($wishes). "'))");
+
+#$query_history = mysql_query("SELECT * from post P, item I WHERE P.email!=('$gl_useremail') AND I.id=P.id
+#AND (I.title RLIKE ('" .mysql_real_escape_string($wishes). "') OR I.category RLIKE ('".mysql_real_escape_string($wishes1). "'))");
 		                
 if (!$query_history) {
 	
@@ -45,7 +60,7 @@ if (!$query_history) {
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	    <meta name="viewport" content="width=device-width, initial-scale=1">
-     		<title>Wishlist</title>
+     		<title>Recommended</title>
 
      		<!-- jQuery Libraries -->
 	   		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -60,7 +75,7 @@ if (!$query_history) {
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
@@ -73,7 +88,7 @@ if (!$query_history) {
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li><a href="wishlist.php">Wishlist</a></li>
-	        <li class="active"><a href="history.php">Buy History</a></li>
+	        <li class="active"><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -83,7 +98,7 @@ if (!$query_history) {
 
 	<div class="container">
 	<center>
-	<h3>Items Based on Your Buy History</h3>
+	<h3>Items Based on Your Purchase History</h3>
 	<br> <br>
 	</center>
 	

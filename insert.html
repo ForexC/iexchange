@@ -20,11 +20,11 @@
 			var price = document.forms["insertForm"]["price"];
 
 			if(title == ""){
-				alert("title missing");
+				alert("Title missing");
 				return false;
 			}
 			if(!(price.value>0)){
-				alert("invalid price");
+				alert("Invalid price");
 				return false;
 			}
 			return true;
@@ -37,18 +37,16 @@
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
 	        <li><a href="index.php">Home</a></li>
-	        <!-- we don't need these ones
-	        <li><a href="login.php">Login</a></li>
-	        <li><a href="signup.php">Signup</a></li>
-	    	-->
+	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li class="active"><a href="profile.php">Profile</a></li>
 	        <li><a href="search.php">Search</a></li>
-	        <?php if(isset($_SESSION['user_email'])) {?>
+	        <li><a href="wishlist.php">Wishlist</a></li>
+	        <li><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -57,7 +55,8 @@
     </nav>
 <div class="container">
 <center>	
-<h2>Post Item</h2>
+<h3>Post Item</h3>
+<br>
 
 <form name="insertForm" action="insert.php" method="post" onsubmit="return validateInputs()" class="form-horizontal"/> <!-- TODO. Use session variable to keep track of user. Insert successful: redirect to user's profile page.-->
 <div class="form-group">

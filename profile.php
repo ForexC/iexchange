@@ -87,7 +87,11 @@ if(isset($_POST['bought'])) {
 		
 		$q1 = mysql_query("SELECT * FROM item WHERE id='$del_id'"); # should have only one row
 		$user_row = mysql_fetch_assoc($q1);
-		$title_in = $user_row['title'];
+		$title_in_temp = $user_row['title'];
+		
+		# hotfix edit: split $title_in, replacing spaces with |	
+		$title_in = str_replace(" ", "|", $title_in_temp);
+	
 		$price_in = $user_row['price'];
 		$category_in = $user_row['category'];
 		$email_in = $_POST['buyer_email'];
@@ -146,7 +150,7 @@ if(isset($_POST['bought'])) {
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
@@ -155,7 +159,7 @@ if(isset($_POST['bought'])) {
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li><a href="wishlist.php">Wishlist</a></li>
-		<li><a href="history.php">Buy History</a></li>
+		<li><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
@@ -164,7 +168,7 @@ if(isset($_POST['bought'])) {
     </nav>
 <div class="container">
 	<center>
-	<h2>Your Information</h2>
+	<h3>Your Information</h3>
 	<br>
 	<br>
 	<br>
@@ -183,7 +187,7 @@ if(isset($_POST['bought'])) {
 		</table>
 	<br>
 
- 	<h2>Your Posts</h2>
+ 	<h3>Your Posts</h3>
  	<br>
  	<br>
  	<br>
@@ -227,7 +231,7 @@ function validateInputs(){
 ?>		
 		<tr>
 		<td>
-			<input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"/>
+		<input name="check[]" type="checkbox" id="check[]" value="<?=$record['id']?>"/>
 		</td>
 		<td><?=$record['title']?></td>
 		<td>$<?=$record['price']?></td>
@@ -241,19 +245,19 @@ function validateInputs(){
 <br>
 
 <!-- anchal edit -->
-<br>
-<div class="container">
-	 <div class="form-group">
-	      <div class="col-sm-1">
-	      </div>
-	      <div class="col-sm-8">
-	       <input class="form-control" name="buyer_email" type="text" placeholder="Buyer's Email">
-	      </div>
-	      <div class="col-sm-3">
-	      	<input class="btn btn-info" type="submit" name="bought" value="Mark as Bought" onclick="submitted = 1"/>
-	      </div>
-	 </div>
-</div>
+<div class="row">
+	<div class="col-lg-4 col-lg-offset-4">
+            <div class="input-group">
+                <input class="form-control" name="buyer_email" type="text" placeholder="Buyer's Email"/> 
+                    <span class="input-group-btn">
+                    <input class="btn btn-default" type="submit" name="bought" value="Mark as Bought" onclick="submitted = 1"/>
+                    </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+<!-- -->
+
 <br>
 <input class="btn btn-info" type="submit" name="delete" value="Delete" onclick="submitted = 0" />
 <!--<input class="btn btn-info" type="submit" name="bought" value="Mark as Bought" onclick="submitted = 0" /> -->

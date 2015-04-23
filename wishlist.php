@@ -4,7 +4,7 @@ session_start();
 include 'dbconnect.php';
 $gl_useremail = $_SESSION["user_email"];
 		                
-$sub_query = mysql_query("SELECT item from wishlist WHERE email=('$gl_useremail')");
+$sub_query = mysql_query("SELECT title from wishlist WHERE email=('$gl_useremail')");
 
 $count = 1;
 $wishes = "";
@@ -14,7 +14,7 @@ while ($subs = mysql_fetch_assoc($sub_query)) {
 		$wishes .= '|';
 	}
 	
-	$wishes .= $subs['item'];
+	$wishes .= $subs['title'];
 	$count = $count + 1;
 }
 
@@ -24,6 +24,8 @@ if ($wishes == "") {
 
 	$wishes = ".^"; # reject everything below.
 }
+
+#echo $wishes;
 
 # thanks http://stackoverflow.com/questions/26660973/php-pdo-mysql-query-like-multiple-keywords
 $query_wishlist = mysql_query("SELECT * from post P, item I WHERE P.email!=('$gl_useremail') AND I.id=P.id
@@ -39,8 +41,15 @@ if (!$query_wishlist) {
 #Add to wishlist
 if (isset($_POST['addWish'])) {
 
-	$search_key = $_POST['addWish'];
-	$awquery = mysql_query("INSERT INTO wishlist (email, item) VALUES ('$gl_useremail', '$search_key')");
+	$search_key_temp = $_POST['addWish'];
+	
+	# hotfix edit: split $search_key_temp, replacing spaces with |	
+	$search_key = str_replace(" ", "|", $search_key_temp);
+	
+	if (!empty($search_key)) {
+	
+		$awquery = mysql_query("INSERT INTO wishlist (email, title) VALUES ('$gl_useremail', '$search_key')");
+	}	
 }
 
 ?>
@@ -65,7 +74,7 @@ if (isset($_POST['addWish'])) {
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
@@ -78,36 +87,40 @@ if (isset($_POST['addWish'])) {
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li class="active"><a href="wishlist.php">Wishlist</a></li>
-	        <li><a href="history.php">Buy History</a></li>
+	        <li><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>
 	    </div>
 	  </div>
     </nav>
-
+	
+	<br>
 	<div class="container">
-	<form action="#" method="post" > 
-	 <div class="form-group">
-	      <div class="col-sm-1">
-	      </div>
-	      <div class="col-sm-8">
-	       <input class="form-control" name="addWish" type="text">
-	      </div>
-	      <div class="col-sm-3">
-	      	<input class="btn btn-info" type="submit" value="Add To Wishlist" />
-	      </div>
-	 </div>
 
-	</form>
-	</div>
-
-	<div class="container">
 	<center>
 	<h3>Items from Your Wishlist</h3>
-	<br> <br>
+	<br>
 	</center>
 	
+	
+	<form action="#" method="post" />
+	<div class="row">
+    	<div class="col-lg-4 col-lg-offset-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="addWish" /> 
+                    <span class="input-group-btn">
+                    <input class="btn btn-default" type="submit" value="Add to Wishlist" />
+                    </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+        </form>
+	
+	<!--</div>-->
+	<br>
+
+	<!--<div class="container">-->	
 	<table class="table table-hover">
 	<thead>
 		<tr>
@@ -135,7 +148,7 @@ if (isset($_POST['addWish'])) {
 ?>
 </tbody>
 </table>	
-	</div>
+</div>
 	
-	</body>																								
+</body>																								
 </html>

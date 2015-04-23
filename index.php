@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+# edit: Since we show listings with email buttons, we can't let users access it unless they're logged in.
+# if user is not logged in, redirect to login.html
+if (!isset($_SESSION['user_email'])) {
+
+	header("Location: http://iexchange.web.engr.illinois.edu/login.php");	
+	exit();
+}
+
 include 'dbconnect.php';
 $gl_useremail = $_SESSION["user_email"];
 
@@ -36,7 +44,7 @@ $row_nums = mysql_num_rows($query_all);
  	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="index.php">iExchange</a>
+	      <a class="navbar-brand" href="index.php">i-Exchange</a>
 	    </div>
 	    <div>
 	      <ul class="nav navbar-nav">
@@ -49,7 +57,7 @@ $row_nums = mysql_num_rows($query_all);
 	        <li><a href="search.php">Search</a></li>
 	        <?php if(isset($_SESSION['user_email'])) {?>
 	        <li><a href="wishlist.php">Wishlist</a></li>
-	        <li><a href="history.php">Buy History</a></li>
+	        <li><a href="history.php">Recommended</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        <?php } ?>
 	      </ul>

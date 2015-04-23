@@ -21,14 +21,16 @@ if (empty($t) OR empty($c) OR empty($p)) {
 $t1 = mysql_query("INSERT INTO item (title, price, category) VALUES ('$t', '$p', '$c')");
 
 if (!$t1) {
-	die('Something bad happened while adding item. ' . mysql_error());
+	header("Location: http://iexchange.web.engr.illinois.edu/profile.php");
+	exit();
 }
 
 # Grab the ID to insert in the post table. Very clumsy, but you gotta do what you gotta do.
 $t2 = mysql_query("SELECT id from item WHERE title=('$t') AND category=('$c') AND price=('$p')"); # shouldn't compare floats?
 
 if (!$t2) {
-	die('Something bad happened while selecting id. Weird. ' . mysql_error());
+	header("Location: http://iexchange.web.engr.illinois.edu/profile.php");
+	exit();
 }
 
 # now actually 'grab' the id.
@@ -38,7 +40,8 @@ $glbl = $_SESSION["user_email"];
 
 $t3 = mysql_query("INSERT INTO post (id, email) VALUES ($grab_id, '$glbl')");
 if (!$t3) {
-	die('Something bad happened while inserting into post. ' . mysql_error());
+	header("Location: http://iexchange.web.engr.illinois.edu/profile.php");
+	exit();
 }
 
 # all done, simply redirect to user's profile page.
