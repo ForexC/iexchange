@@ -2,10 +2,10 @@
 
 # use include("dbconnect.php") to use this file.
 
-define('DB_NAME', 'iexchang_1');
-define('DB_USER', 'iexchang_anchal');
-define('DB_PASSWORD', 'cs411');
-define('DB_HOST', 'engr-cpanel-mysql.engr.illinois.edu');
+define('DB_NAME', '');
+define('DB_USER', '');
+define('DB_PASSWORD', '');
+define('DB_HOST', '');
 
 # establish link to DB
 $link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
